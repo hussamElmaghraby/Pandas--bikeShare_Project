@@ -100,9 +100,28 @@ def load_data(city, month, day):
 
     return df
 # ---------------------------------------------------------------------------
+def display_data(df):
+    available_responses = ['yes' , 'no']
+    view_data = ''
+    start_loc = 0
+    while view_data not in available_responses:
+        view_data = input("Would you like to view 5 rows of individual trip data ? Yes or No !").lower()
+
+        if view_data == 'yes':
+            
+            print(df.iloc[start_loc:start_loc + 5])
+            while view_data == 'yes':
+                view_data = input("Would you like to add more 5 rows ? :").lower()
+                start_loc += 5
+                print(df.iloc[start_loc:start_loc + 5])
+
+        elif view_data not in available_responses:
+                print("Please Enter a valid input [Yes Or No]")
+    print('-'*100)
+
+# ---------------------------------------------------------------------------
 def time_stats(df):
     """Displays statistics on the most frequent times of travel."""
-    print('-'*100)
     print('\nCalculating The Most Frequent Times of Travel...\n')
     start_time = time.time()
 
@@ -202,6 +221,7 @@ def main():
     while True:
         city, month, day = get_filters()
         df = load_data(city, month, day)
+        display_data(df)
         time_stats(df)
         station_stats(df)
         trip_duration_stats(df)
